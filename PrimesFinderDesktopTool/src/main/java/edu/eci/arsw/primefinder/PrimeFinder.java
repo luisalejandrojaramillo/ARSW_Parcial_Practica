@@ -21,18 +21,15 @@ public class PrimeFinder{
             
                 BigInteger i=a;
                 while (i.compareTo(b)<=0){
+                    //synchronized (PrimesFinderTool.countTr){ }
+
+
                     itCount++;
                     if (mt.isPrime(i)){
                         prs.addPrime(i);
                     }
-
                     i=i.add(BigInteger.ONE);
                 }
-                
+                PrimesFinderTool.countTr.decrementAndGet();
 	}
-	
-	
-	
-	
-	
 }
