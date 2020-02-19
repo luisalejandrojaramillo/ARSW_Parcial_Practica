@@ -21,7 +21,15 @@ public class PrimeFinder{
             
                 BigInteger i=a;
                 while (i.compareTo(b)<=0){
-                    //synchronized (PrimesFinderTool.countTr){ }
+                    synchronized (PrimesFinderTool.monitThread){
+                        if (PrimesFinderTool.pause){
+                            try {
+                                PrimesFinderTool.monitThread.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
 
 
                     itCount++;

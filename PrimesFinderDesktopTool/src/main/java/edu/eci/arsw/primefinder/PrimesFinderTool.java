@@ -15,7 +15,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 public class PrimesFinderTool {
 
-    //public static Object monitThread = new Object();
+    public static Boolean pause = false;
+    public static Object monitThread = new Object();
     public static int threads = 4; //Los 4 Threads
     public static AtomicInteger countTr = new AtomicInteger(threads);
 
@@ -43,9 +44,14 @@ public class PrimesFinderTool {
                     Thread.sleep(10);
                     if (MouseMovementMonitor.getInstance().getTimeSinceLastMouseMovement()>10000){
                         System.out.println("Idle CPU ");
+                        pause = true;
                     }
                     else{
                         System.out.println("User working again!");
+                        pause = false;
+                        synchronized (monitThread){
+                            monitThread.notifyAll();
+                        }
                     }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(PrimesFinderTool.class.getName()).log(Level.SEVERE, null, ex);
