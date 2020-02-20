@@ -7,11 +7,9 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -49,9 +47,10 @@ public class PrimesController {
             return new ResponseEntity<>("ERROR",HttpStatus.NOT_FOUND);
         }
     }
-    //curl -i -X POST -HContent-Type:application/json -HAccept:application/json http://localhost:8080/primes/create -d "{"""user""":"""wilson""","""prime""":"""69"""}"
-    @RequestMapping(path = "/create", method = POST)
-    public ResponseEntity<?> addNewPrime(@RequestBody FoundPrime f){
+
+    //curl -i -X POST -HContent-Type:application/json -HAccept:application/json http://localhost:8080/primes -d "{"""user""":"""wilson""","""prime""":"""69"""}"
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<?> addNewPrime(@Valid @RequestBody FoundPrime f){
         try {
             primeService.addFoundPrime(f);
             return new ResponseEntity<>(HttpStatus.CREATED);
